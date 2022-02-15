@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" ></script>
+  </head>
+  <body>
+    <h1>{{ labels }}</h1>
+    <h1>{{ CO2_values }} <br> {{water_values}} <br> {{plastic_values}} </h1>
+
+    <canvas id="lineChart" width="300" height="300"></canvas>
+    <script>
+    chart = new Highcharts.Chart(ctx, {
+
+      xAxis: {
+        data {
+          labels: {{labels | safe}}
+        }
+        label: lables,
+        data: lables,
+      },
+      yAxis: [{ // Primary yAxis
+          labels: {
+              format: '{value}',
+              style: {
+                  color: 'lighgreen' //Highcharts.getOptions().colors[3]
+              }
+          },
+          title: {
+              text: 'CO2 emissions in kg',
+              style: {
+                  color: "lightgreen"
+              }
+          },
+          opposite: false
+
+      }, { // Secondary yAxis
+          gridLineWidth: 0,
+          labels: {
+            format: '{value}',
+            style: {
+                color: "lightblue"
+            }
+        },
+          title: {
+              text: 'water consumption in l',
+              style: {
+                  color: "lightblue"
+              }
+          },
+          opposite: false,
+      }],
+      legend: {
+          layout: 'vertical',
+          align: 'left',
+          x: 80,
+          verticalAlign: 'top',
+          y: 55,
+          floating: true,
+          backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)'
+      },
+      series: [{
+          name: 'Temperature Value',
+          tooltip: {
+              valueSuffix: ' °C'
+          },
+          data: chartTempValue
+          },
+          {
+          name: 'Humidity Value',
+          tooltip: {
+          valueSuffix: ' %rh'
+          },
+          data: chartHumiValue
+      }],
+    });
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block bodycontent %}
+<h1>Statistics</h1>
+  <h2>Your Footprints this week: </h2>
+  <div class="thisweek">
+      <canvas id="CO2Chart"></canvas>
+      <p class="subtitle">Your CO2 emissions in kilogramms </p>
+      <canvas id="WaterChart" ></canvas>
+      <p class="subtitle">Your water consumption in liters </p>
+      <canvas id="PlasticChart"></canvas>
+      <p class="subtitle"> Items of Plastic </p>
+        </div>
+        <div class="fourweeks">
+          <h2> Your Footprints the last weeks: </h2>
+      <canvas class="chart" id="barChartCO2" width="300" height="300" alt="CO2 weekly average"></canvas>
+        <p class="subtitle">{{ message1 }}</p>
+      <canvas class="chart" id="barChartWater" width="300" height="300" alt = "water weekly average"></canvas>
+      <p class="subtitle">{{ message2 }}</p>
+              </div>
+
+      <script>
+        var ctx1 = document.getElementById("CO2Chart").getContext("2d");
+        var CO2chart = new Chart(ctx1, {
+          type: "line",
+          data: {
+            labels: {{ labels | safe }},
+            datasets: [
+             {
+               label: "CO2",
+               data: {{ CO2_values | safe }},
+               fill: false,
+               borderColor: "lightgreen",
+               lineTension: 0.1,
+             }
+             ]
+           },
+             options:{
+               responsive: false
+             }
+           })
+           </script>
+
+           <script>
+             var ctx2 = document.getElementById("WaterChart").getContext("2d");
+             var Waterchart = new Chart(ctx2, {
+               type: "line",
+               data: {
+                 labels: {{ labels | safe }},
+                 datasets: [
+            {
+               label: "Water",
+               data: {{ water_values | safe }},
+               fill: false,
+               backgrondColor: "lightblue",
+               borderColor: "lightblue",
+               lineTension: 0.1,
+             }
+             ]
+           },
+             options: {
+               responsive: false
+             }
+           })
+           </script>
+
+             <script>
+               var ctx3 = document.getElementById("PlasticChart").getContext("2d");
+               var Plasticchart = new Chart(ctx3, {
+                 type: "line",
+                 data: {
+                   labels: {{ labels | safe }},
+                   datasets: [
+             {
+               label: "Plastic",
+               data: {{ plastic_values | safe }},
+               fill: false,
+               backgrondColor: "pink",
+               borderColor: "pink",
+               lineTension: 0.1,
+             }
+            ]
+          },
+        options:{
+          responsive: false
+        }
+      })
+      </script>
+
+      <script>
+      var ctx4 = document.getElementById("barChartCO2").getContext("2d");
+      var barchartCO2 = new Chart(ctx4, {
+        type: "bar",
+        data: {
+          labels: [{% for item in labels_weeks %}
+                  "{{ items }}",
+                 {% endfor %}],
+          datasets: [
+           {
+             label: "CO2",
+             data: {{ CO2_weeks | safe }},
+             fill: true,
+             backgroundColor: "lightgreen",
+             lineTension: 0.1,
+           },
+           ]
+             },
+           options:{
+             responsive: false
+           }
+         })
+           </script>
+           <script>
+           var ctx5 = document.getElementById("barChartWater").getContext("2d");
+           var barchartwater = new Chart(ctx5, {
+             type: "bar",
+             data: {
+               labels: [{% for item in labels_weeks %}
+                       "{{ items }}",
+                      {% endfor %}],
+               datasets: [
+          {
+             label: "Water",
+             data: {{ water_weeks | safe }},
+             fill: true,
+             backgroundColor: "lightblue",
+             lineTension: 0.1,
+           }
+          ]
+        },
+      options:{
+        responsive: false
+      }
+    })
+      </script>
+    </body>
+  </html>
+
+<h2>Your Top 5 highest emissions</h2>
+  <br>
+  <div class="top_five">
+  <table>
+    <p>{{titles[0]}}</p>
+    {{ tables[0]|safe }}
+    <p>{{titles[1]}}</p>
+    {{ tables[1]|safe }}
+  </table>
+  </div>
+{% endblock %}

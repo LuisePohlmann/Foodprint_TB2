@@ -1,0 +1,306 @@
+body {
+    background-color: white;
+    font-family: courier, monospace;
+    text-align: center;
+  }
+
+  h1 {
+    color: #01796f;
+  }
+
+  h2 {
+    color: forestgreen;
+    font-variant: small-caps;
+  }
+
+  a{
+    color: lightgreen;
+    text-decoration: none;
+    font-family: Verdana, sans-serif;
+  }
+
+p {
+  color: black;
+  font-family: Courier;
+  font-size: 1.0em;
+  margin: 20px;
+}
+
+p.subtitle {
+  padding-top: 0em;
+  padding-bottom: 4em;
+}
+
+img {
+  margin: 60px 0 30px 0;
+  width: 250px;
+}
+
+
+nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin-top: 10px;
+	background-color: #d0f0c0 ;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+nav a {
+ float: none;
+ color: #01796f;
+ text-align: center;
+ padding: 15px 20px;
+ text-decoration: none;
+ font-size: 17px;
+}
+
+nav a:hover {
+  background-color: lightgreen;
+  color: black;
+}
+
+nav a.active {
+  background-color: #01796f;
+  color: white;
+}
+canvas {
+  margin: 10px auto 20px;
+  display: block;
+  width: 30%;
+  height: 30%
+}
+
+.thisweek{
+  height: 30%;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
+}
+
+.allweeks {
+  align: center;
+  height: 50%;
+  padding-bottom: 0em;
+  margin-bottom: 0em;
+}
+
+.top_five {
+display: block;
+text-align: middle;
+}
+
+table.dataframe, .dataframe th, .dataframe td {
+  border: 1px solid;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  margin: 10px auto 20px;
+  padding: 10px;
+  margin-bottom: 100px;
+  font-size: 0.9em;
+}
+
+th {
+  background-color: #04AA6D;
+  color: white;
+}
+
+tr:hover {background-color: lightgreen;}
+
+.choosefood{
+  font-size: 2em;
+  display: block;
+  color: black;
+  text-align: middle;
+  font-family: Courier;
+  margin-bottom: 20px;
+}
+
+.addplastic{
+  font-size: 2em;
+  display: block;
+  color: black;
+  text-align: middle;
+  font-family: Courier;
+  margin-bottom: 20px;
+}
+
+.trafficlight{
+  display: block;
+  margin: 10px auto 10px;
+  width: 50%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #d0f0c0 ;
+  text-align: center;
+  align: middle;
+  font-family: Arial;
+}
+
+.trafficlight a{
+  color: black;
+}
+
+.trafficlight a:hover{
+  background-color: lightgreen;
+}
+
+.Tips{
+  display: block;
+  margin: 10px auto 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 50%;
+  background-color: #d0f0c0 ;
+  text-align: center;
+  align: middle;
+}
+
+.Tips a{
+  color: black;
+}
+
+.Tips:hover{
+  background-color: lightgreen;
+}
+
+.firsticons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto 10px;
+  width: 30%;
+  align: middle;
+  font-family: Arial;
+}
+
+.lasticons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto 10px;
+  width: 30%;
+  align: middle;
+  font-family: Arial;
+}
+
+.meals{
+  align: middle;
+  width: 30%;
+  margin: 4px 4px 4px 4px;
+  padding: 20px 40px;
+  background-color: #01796f
+
+}
+
+.firsticons a {
+  color: white;
+  width: 200px;
+  text-align: center;
+  border-radius: 2px;
+  padding: 5px;
+  font-family: Arial;
+}
+
+.lasticons a{
+  color: white;
+  width: 200px;
+  text-align: center;
+  border-radius: 2px;
+  padding: 5px;
+  font-family: Arial;
+}
+
+.meals:hover {
+  background-color: lightgreen;
+  color: black;
+}
+
+.meals.active {
+  background-color: lightgreen;
+  color: white;
+}
+
+svg{
+  height: 20px;
+  width: 20px;
+}
+
+svg.icon{
+  fill: white;
+  text-align: top;
+}
+
+.morefood a {
+  display: block;
+  margin: 10px auto 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 30%;
+  background-color: #d0f0c0 ;
+  color: black;
+  text-align: center;
+  align: middle;
+  border-color: forestgreen;
+}
+
+.morefood a:hover{
+  background-color: lightgreen;
+  cursor:pointer;
+}
+
+.options{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto 10px;
+  width: 20%;
+  align: middle;
+  font-family: Arial;
+}
+
+.backtohome {
+  padding: 10px;
+  background-color: #d0f0c0 ;
+  border-color: forestgreen;
+}
+
+.backtohome a {
+  color: black;
+  align: middle;
+  text-align: center;
+}
+
+.backtohome:hover{
+  background-color: lightgreen;
+  cursor:pointer;
+}
+
+.tostats{
+  padding: 10px;
+  background-color: #d0f0c0 ;
+  border-color: forestgreen;
+}
+
+.tostats a {
+  color: black;
+  text-align: center;
+  align: middle;
+}
+
+.tostats:hover{
+  background-color: lightgreen;
+  cursor:pointer;
+}
+
+button{
+  background-color: #d0f0c0;
+  font-family: Arial;
+  font-size: 0.8em;
+  color: black;
+  width: 200px;
+  height: 2.5em;
+  border-color: forestgreen;
+}
+
+button:hover{
+  background-color: lightgreen;
+  cursor:pointer;
+}

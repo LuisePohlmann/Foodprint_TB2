@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block bodycontent %}
+
+<h1>Add your Food here.</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <h2>Choose your Food item:</h2>
+    <div class="choosefood">
+        {{ form.new_food }}
+    </div>
+    <h2>How much plastic wrapping was on this item?</h2>
+    <div class="addplastic">
+      {{ form.plastic }}
+    </div>
+    <button>Add Food</button>
+</form>
+
+
+
+  <script>
+  $(document).ready(function() {
+      $('#name').select2({  // init Select2 on form's name field
+          placeholder: "{{ form.new_food.label.text }}",
+          allowClear: true,
+          "width": "style"
+      });
+  });
+  </script>
+
+{% endblock %}
