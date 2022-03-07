@@ -15,6 +15,11 @@ def login():
     return render_template('login.html')
 
 
+@auth.route('/sign-up')
+def signup():
+    return render_template('signup.html')
+
+
 @auth.route("/home", methods=["POST", "GET"])
 def home():
     thisweek = App.totals()

@@ -1,15 +1,18 @@
 # powershell: create virtualenvironment, start it and navigate to folder, then run
 # install everything (flask, gunicorn, pandas ...)
 # pip freeze > requirements.txt
+
 import pandas as pd
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
+from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import SelectField
 from wtforms.validators import InputRequired
 
 import App
+from Foodprint_Flask import models
 from config import Config
 
 db = SQLAlchemy()
@@ -51,11 +54,6 @@ def home():
     thisweek = App.totals()
     form = AddFoodForm()
     return render_template("Home.html", thisweek_CO2=thisweek["CO2"], thisweek_water=thisweek["water"], thisweek_plastic=thisweek["plastic"], form=form)
-
-
-@app.route('/profile')
-def profile():
-    return 'Profile'
 
 
 @app.route("/Add_Food", methods=["POST", "GET"])
@@ -103,9 +101,69 @@ def Tips():
     return render_template("Tips.html")
 
 
-@app.route("/Me")
+@app.route("/Me", methods=["POST", "GET"])
 def Me():
+    from auth import loggedInUser as liu
+    if liu is None:
+        return redirect(url_for('auth.login'))
     return render_template("Me.html")
+
+
+@app.route("/User")
+def User():
+    from auth import loggedInUser as liu
+    if liu is not None:
+        return render_template("User.html")
+    return redirect(url_for('auth.login'))
+
+
+@app.route("/usernameChange", methods=["POST"])
+def user_change():
+    username = request.form.get("username")
+    password_current = request.form.get("password")
+    from auth import loggedInUser as liu
+    if not check_password_hash(liu.password, password_current):
+        flash('Current password is incorrect')
+        return redirect(url_for('User'))
+    if liu is not None:
+        user = models.User().query.filter_by(id=liu.id).first()
+        user.name = username
+        liu.name = username
+        db.session.commit()
+        return redirect(url_for('Me'))
+    else:
+        return redirect(url_for('auth.login'))
+
+
+@app.route("/Password")
+def Password():
+    from auth import loggedInUser as liu
+    if liu is not None:
+        return render_template("password_change.html")
+    return redirect(url_for('auth.login'))
+
+
+@app.route("/passwordChange", methods=["POST"])
+def password_change():
+    password_again = request.form.get("again_password")
+    password_new = request.form.get("new_password")
+    password_current = request.form.get("current_password")
+    if password_new != password_again:
+        flash('Passwords do not match')
+        return redirect(url_for('Password'))
+    from auth import loggedInUser as liu
+    if not check_password_hash(liu.password, password_current):
+        flash('Current password is incorrect')
+        return redirect(url_for('Password'))
+    if liu is not None:
+
+        user = models.User().query.filter_by(id=liu.id).first()
+        user.password = generate_password_hash(password_new, method='sha256')
+        liu.password = generate_password_hash(password_new, method='sha256')
+        db.session.commit()
+        return redirect(url_for('Me'))
+    else:
+        return redirect(url_for('auth.login'))
 
 
 if __name__ == "__main__":
