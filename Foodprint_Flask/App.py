@@ -3,7 +3,6 @@ import datetime
 from datetime import date, datetime
 
 def get_values():
-    import pandas as pd
     entire_data = pd.read_csv("data/Food_Production.csv")
     food_data = entire_data[["Food product", "Total_emissions", "Freshwater withdrawals per kilogram (liters per kilogram)"]]
 
@@ -34,7 +33,7 @@ def list(df):
 
 def get_food(df):
     global food
-    food = df[df["Food product"]==search_food]
+    food = df[df["Food product"]==search_food] #search_food not existing here! @Carina-Sophie
     food=dict(food)
     return(food)
 
@@ -91,7 +90,7 @@ def last_weeks(history):
         try:
             week.pop("Unnamed:0")
         except KeyError:
-            week = week
+            week
 
     df_week_1.to_csv("data/week_1.csv")
     df_week_2.to_csv("data/week_2.csv")
