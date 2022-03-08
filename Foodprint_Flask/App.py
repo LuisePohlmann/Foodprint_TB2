@@ -2,65 +2,71 @@ import pandas as pd
 import datetime
 from datetime import date, datetime
 
+
 def get_values():
     import pandas as pd
     entire_data = pd.read_csv("data/Food_Production.csv")
     food_data = entire_data[["Food product", "Total_emissions", "Freshwater withdrawals per kilogram (liters per kilogram)"]]
 
     food_footprints_CO2 = pd.read_csv("data/food-footprints.csv")
-    food_footprints_CO2 = food_footprints_CO2[["Entity","GHG emissions per kilogram (Poore & Nemecek, 2018)" ]]
-    food_footprints_CO2.rename(columns = {'Entity':'Food product', 'GHG emissions per kilogram (Poore & Nemecek, 2018)':'Total_emissions'}, inplace = True)
+    food_footprints_CO2 = food_footprints_CO2[["Entity", "GHG emissions per kilogram (Poore & Nemecek, 2018)"]]
+    food_footprints_CO2.rename(columns={'Entity': 'Food product', 'GHG emissions per kilogram (Poore & Nemecek, 2018)': 'Total_emissions'}, inplace=True)
 
-    food_df = food_data.merge(food_footprints_CO2, how="outer", on = "Food product")
+    food_df = food_data.merge(food_footprints_CO2, how="outer", on="Food product")
 
-    food_df["Total_emissions_total"] = (food_df["Total_emissions_x"] + food_df["Total_emissions_y"])/2
-    food_df['Total_emissions_total'].fillna(food_df['Total_emissions_x'],inplace=True)
-    food_df['Total_emissions_total'].fillna(food_df['Total_emissions_y'],inplace=True)
+    food_df["Total_emissions_total"] = (food_df["Total_emissions_x"] + food_df["Total_emissions_y"]) / 2
+    food_df['Total_emissions_total'].fillna(food_df['Total_emissions_x'], inplace=True)
+    food_df['Total_emissions_total'].fillna(food_df['Total_emissions_y'], inplace=True)
 
     food_df.pop("Total_emissions_x")
     food_df.pop("Total_emissions_y")
-    food_df.rename(columns = {"Total_emissions_total": "CO2", "Freshwater withdrawals per kilogram (liters per kilogram)": "Water"}, inplace = True)
+    food_df.rename(columns={"Total_emissions_total": "CO2", "Freshwater withdrawals per kilogram (liters per kilogram)": "Water"}, inplace=True)
 
-    food_df['Water'].fillna(food_df['Water'].mean(),inplace=True)
+    food_df['Water'].fillna(food_df['Water'].mean(), inplace=True)
 
     df = food_df
-    return(df)
+    return (df)
+
 
 def list(df):
     list_of_foods = []
     for i, row in df.iterrows():
-        list_of_foods.append(df.loc[i,"Food product"])
-    return(list_of_foods)
+        list_of_foods.append(df.loc[i, "Food product"])
+    return (list_of_foods)
+
 
 def get_food(df):
     global food
-    food = df[df["Food product"]==search_food]
-    food=dict(food)
-    return(food)
+    food = df[df["Food product"] == search_food]  # search food does not exist!!!
+    food = dict(food)
+    return (food)
+
 
 def create_history():
-    data = {"Food":"food","CO2":[0], "water":[0], "plastic":[0], "date": [date.today()]}
+    data = {"Food": "food", "CO2": [0], "water": [0], "plastic": [0], "date": [date.today()]}
     history = pd.DataFrame(data)
     history.to_csv("data/history.csv")
-    return(history)
+    return (history)
+
 
 def get_footprints(food, plastic):
     import pandas as pd
     from datetime import date
     history = pd.read_csv("data/history.csv", index_col=[0])
-    CO2_footprint = float(food["CO2"])/10
-    water_footprint = float(food["Water"]/10)
+    CO2_footprint = float(food["CO2"]) / 10
+    water_footprint = float(food["Water"] / 10)
     plastic_footprint = plastic
-    data = {"Food":food["Food product"], "CO2": [CO2_footprint], "water": [water_footprint], "plastic":[plastic_footprint], "date": [date.today()]}
+    data = {"Food": food["Food product"], "CO2": [CO2_footprint], "water": [water_footprint], "plastic": [plastic_footprint], "date": [date.today()]}
     new_history = pd.DataFrame.from_dict(data)
     history = history.append(new_history)
     history.to_csv("data/history.csv")
-    return(history)
+    return (history)
+
 
 def last_weeks(history):
     from datetime import timedelta
     today = date.today()
-    week_1, week_2, week_3, week_4 = [],[],[],[]
+    week_1, week_2, week_3, week_4 = [], [], [], []
 
     for i in range(28):
         d = today - timedelta(days=i)
@@ -91,7 +97,7 @@ def last_weeks(history):
         try:
             week.pop("Unnamed:0")
         except KeyError:
-            week = week
+            week = week  # do nothing if no key error cause does nothing
 
     df_week_1.to_csv("data/week_1.csv")
     df_week_2.to_csv("data/week_2.csv")
@@ -115,7 +121,8 @@ def largest_table(history):
 
     CO2_max_df.to_csv("CO2_max.csv")
     water_max_df.to_csv("water_max.csv")
-    return(water_max_df, CO2_max_df)
+    return (water_max_df, CO2_max_df)
+
 
 def sort_for_stats(data):
     labels = data.index.tolist()
@@ -128,7 +135,8 @@ def sort_for_stats(data):
         water_values.append(i)
     for i in data["plastic"]:
         plastic_values.append(i)
-    return(labels, CO2_values, water_values, plastic_values)
+    return (labels, CO2_values, water_values, plastic_values)
+
 
 def totals():
     week_1 = pd.read_csv("data/week_1.csv", index_col=[0])
@@ -136,7 +144,8 @@ def totals():
     thisweek["CO2"] = week_1["CO2"].sum()
     thisweek["water"] = week_1["water"].sum()
     thisweek["plastic"] = week_1["plastic"].sum()
-    return(thisweek)
+    return (thisweek)
+
 
 def compare_weeks():
     week_1 = pd.read_csv("data/week_1.csv", index_col=[0])
@@ -146,7 +155,7 @@ def compare_weeks():
 
     weeks = [week_1, week_2, week_3, week_4]
 
-    total_1, total_2, total_3, total_4 ={}, {},{},{}
+    total_1, total_2, total_3, total_4 = {}, {}, {}, {}
     totals = [total_1, total_2, total_3, total_4]
 
     a = 0
@@ -174,4 +183,4 @@ def compare_weeks():
         else:
             message2 = "Try to reduce your water consumption next week. Have a look at our Tips."
 
-    return(totals_labels, CO2_weeks, water_weeks, message1, message2)
+    return (totals_labels, CO2_weeks, water_weeks, message1, message2)
