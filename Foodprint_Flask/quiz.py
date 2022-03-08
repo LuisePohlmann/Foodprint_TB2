@@ -18,6 +18,7 @@ class CorrectAnswer(object):
         points+=1
 
 questions = 2
+quiz_achieve = .4
 class PopQuiz(Form):
     class Meta:
         csrf = False

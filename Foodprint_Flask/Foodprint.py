@@ -10,6 +10,7 @@ from flask_wtf import FlaskForm
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import SelectField
 from wtforms.validators import InputRequired
+
 import App
 from Foodprint_Flask import models
 from config import Config
@@ -75,8 +76,8 @@ def passed():
 def wtf_quiz():
     form = PopQuiz()
     form.validate_on_submit()
-    from quiz import points, questions
-    if points >= 1:
+    from quiz import points, questions, quiz_achieve
+    if points / questions >= quiz_achieve:
         return render_template("passed.html", value=f"Youve gotten {(points / questions) * 100}% of the questions right")
 
     return render_template("quiz.html", form=form)
