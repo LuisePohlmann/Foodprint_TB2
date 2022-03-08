@@ -3,17 +3,17 @@
 # pip freeze > requirements.txt
 
 import pandas as pd
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import request, flash, Flask, render_template, redirect, url_for
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import SelectField
 from wtforms.validators import InputRequired
-
 import App
 from Foodprint_Flask import models
 from config import Config
+from quiz import PopQuiz
 
 db = SQLAlchemy()
 df = App.get_values()
@@ -54,6 +54,32 @@ def home():
     thisweek = App.totals()
     form = AddFoodForm()
     return render_template("Home.html", thisweek_CO2=thisweek["CO2"], thisweek_water=thisweek["water"], thisweek_plastic=thisweek["plastic"], form=form)
+
+
+@app.route("/seasonal")
+def seasonal():
+    return redirect("https://www.seasonalfoodguide.org/")
+
+
+@app.route("/Quiz")
+def quiz():
+    return render_template("Quiz.html")
+
+
+@app.route("/passed")
+def passed():
+    return render_template("passed.html")
+
+
+@app.route("/quiz", methods=["GET", "POST"])
+def wtf_quiz():
+    form = PopQuiz()
+    form.validate_on_submit()
+    from quiz import points, questions
+    if points >= 1:
+        return render_template("passed.html", value=f"Youve gotten {(points / questions) * 100}% of the questions right")
+
+    return render_template("quiz.html", form=form)
 
 
 @app.route("/Add_Food", methods=["POST", "GET"])

@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block bodycontent %}
     <h1>Here are some useful Tips:</h1>
+    <h2>Maybe your interested in seasonal food? Click the button below:</h2>
+    <form action="/seasonal">
+        <button class="button is-block is-info is-large is-fullwidth" name="Tips" type="submit">Seasonal Food</button>
+    </form>
+    <h2>Maybe your interested in a little Quiz? Click the button below:</h2>
+    <form action="/quiz">
+        <button class="button is-block is-info is-large is-fullwidth" type="submit">Quiz</button>
+    </form>
 {% endblock %}
