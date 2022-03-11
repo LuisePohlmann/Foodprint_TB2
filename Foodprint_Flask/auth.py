@@ -3,8 +3,8 @@ from flask_login import login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from Foodprint import db, AddFoodForm
-from Foodprint_Flask import App
-from Foodprint_Flask.models import User
+import App
+from models import User
 
 loggedInUser = None
 auth = Blueprint('auth', __name__)
