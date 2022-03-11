@@ -12,7 +12,7 @@ from wtforms import SelectField
 from wtforms.validators import InputRequired
 
 import App
-from Foodprint_Flask import models
+import models
 from config import Config
 from quiz import PopQuiz
 
